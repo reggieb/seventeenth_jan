@@ -7,14 +7,14 @@
   body {
   	background-color: white;
   }
-  nav {
+  ul {
   	display: block;
   	padding: 70px 20px 45px;
   	margin: 0;
   	background-color: rgb(255,193,0);
   	font-size: 0;
   }
-  nav a {
+  ul li {
   	display: inline-block;
   	height: 65px;
   	width: 16.6%;
@@ -29,26 +29,25 @@
     text-transform: uppercase;
     font-weight: 1000;
   }
-  nav a:first-child {
+  ul li:first-child {
   	text-align: left;
   }
-  nav a:last-child {
+  ul li:last-child {
   	text-align: right;
   }
-  nav a.completed {
+  ul li.completed {
   	border-bottom-color: rgb(33,49,52);
   }
 </style>
 </head>
 <body>
-  <nav>
-    <a href="#age-postcode" class="completed">Age &#43; Postcode</a>
-    <a href="#about-you">About you</a>
-    <a href="#your-kit">Your kit</a>
-    <a href="#contact-delivery">Contact &#43; delivery</a>
-    <a href="#more-about-you">More about you</a>
-    <a href="#confirm-pay">Confirm &#43; Pay</a>
-  </nav>
+  <ul>
+    <li class="completed">Age &#43; Postcode</li>
+    <li>About you</li>
+    <li>Your kit</li>
+    <li>Contact &#43; delivery</li>
+    <li>More about you</li>
+    <li>Confirm &#43; Pay</li>
+  </ul>
 </body>
-
 </html>
