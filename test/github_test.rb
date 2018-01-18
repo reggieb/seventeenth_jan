@@ -3,23 +3,23 @@ require_relative '../lib/github'
 
 class GithubTest < Minitest::Test
 
+  def user
+    'paulobapmar'
+  end
+
   def github
-    @github ||= Github.new(user: 'reggieb')
+    @github ||= Github.new(user: user)
   end
 
   def test_languages_urls
-    assert_equal github.languages_urls.last, 'https://api.github.com/repos/reggieb/hypocorism/languages'
-  end
-
-  def test_data
-    assert_equal github.data.last.keys, ['Ruby']
+    assert_match(/https:\/\/api.github.com\/repos\/#{user}\/.*\/languages/, github.languages_urls.first)
   end
 
   def test_favourite_language
-    assert_equal github.favouite_language, 'Ruby'
+    assert_equal 'JavaScript', github.favourite_language
   end
 
   def test_favourite_language_of
-    assert_equal Github.favourite_language_of('reggieb'), 'Ruby'
+    assert_equal 'JavaScript', Github.favourite_language_of(user)
   end
 end

@@ -4,8 +4,11 @@ require 'json'
 class Github
   def self.favourite_language_of(user)
     new(user: user).favourite_language
-  rescue => e
+  rescue RetryLimitExceededError => e
     e.message
+  end
+
+  class RetryLimitExceededError < StandardError
   end
 
   attr_reader :user
@@ -27,7 +30,6 @@ class Github
   end
 
   def languages_urls
-    raise 'Retry limit exceeded. Try again later' unless repositorys.kind_of?(Array)
     repositorys.collect{|r| r['languages_url']}
   end
 
@@ -36,10 +38,18 @@ class Github
   end
 
   def user_repos_uri
-    'https://api.github.com/users/reggieb/repos'
+    "https://api.github.com/users/#{user}/repos"
   end
 
   def json_from(uri)
-    JSON.parse Net::HTTP.get(URI(uri))
+    output = JSON.parse Net::HTTP.get(URI(uri))
+    return output unless retry_limit_exceeded?(output)
   end
+
+  def retry_limit_exceeded?(output)
+    return false if output.kind_of?(Array)
+    return false unless /rate limit exceeded/ =~ output['message']
+    raise RetryLimitExceededError, 'Retry limit exceeded. Try again later'
+  end
+
 end
